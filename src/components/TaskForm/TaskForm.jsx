@@ -1,4 +1,6 @@
+import { Button } from "components/Button/Button";
 import { Component } from "react";
+import { Btn, TextArea } from "./TaskForm.styled";
 
 export class TaskForm extends Component{
     state={
@@ -16,10 +18,10 @@ export class TaskForm extends Component{
     render(){
         return(
             <form onSubmit={this.onFormSubmit}>
-                <textarea name="goal" value={this.state.goal}
+                <TextArea name="goal" value={this.state.goal}
                 onChange={this.onFormChange}
                 />
-                <button type="submit">CREATE</button>
+                <Btn type="submit">CREATE</Btn>
             </form>
         )
     }

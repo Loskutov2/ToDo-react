@@ -1,7 +1,10 @@
 import { ToDo } from "./ToDo";
-export function ToDoList({toDos, onDelete, toggleCompleted}){
+import { Copmleted, List } from "./ToDo.styled";
+export function ToDoList({toDos, allToDos, onDelete, toggleCompleted}){
+    
     return(
-        <ul>
+        <List>
+            <Copmleted>{allToDos.filter(toDo=>toDo.completed).length}/{allToDos.length} Completed</Copmleted>
             {toDos.map((toDo)=>(
                 <ToDo
                     text={toDo.text}
@@ -12,6 +15,6 @@ export function ToDoList({toDos, onDelete, toggleCompleted}){
                     id={toDo.id}
                 />
             ))}
-        </ul>
+        </List>
     )
 }

@@ -1,13 +1,22 @@
+import { FaPlus } from "react-icons/fa";
 import { Component } from "react"
 import { ToDoList } from "./WorkList/ToDoList";
 import { nanoid } from "nanoid";
 import { TaskForm } from "./TaskForm/TaskForm";
 import {Modal} from "./Modal/Modal";
+import { Button } from "./Button/Button";
+import { Filter } from "./Filter/Filter";
 
 export class App extends Component{
   state={
     showModal:false,
-    toDos:[]
+    toDos:[],
+    fillter:''
+  }
+  changeFillter=(e)=>{
+    this.setState({
+      fillter:e.currentTarget.value
+    })
   }
   componentDidMount(){
     const toDos=JSON.parse(localStorage.getItem('toDos'))
@@ -46,21 +55,24 @@ export class App extends Component{
     if (prevState.todos !== this.state.toDos) {
       window.localStorage.setItem('toDos', JSON.stringify(this.state.toDos))
     }
-
   }
   togggleModal=()=>{
     this.setState(prev=>({showModal:!prev.showModal}))
+  }
+  visibleToDos=()=>{
+    return this.state.toDos.filter(toDo=>toDo.text.toLowerCase().includes(this.state.fillter.toLowerCase()))
   }
   render(){
     return (
       <>
         <TaskForm addToDo={this.addToDo}/>
-        {this.state.toDos&&<ToDoList toDos={this.state.toDos} onDelete={this.onDelete} toggleCompleted={this.toggleCompleted}/>}
-        {this.state.showModal&&<Modal>
-          <p>abcdefghijklmnop</p>
-          <button type='button' onClick={this.togggleModal}>Close</button>
+        <Filter value={this.state.fillter} onChange={this.changeFillter}/>
+        {this.state.toDos&&<ToDoList toDos={this.visibleToDos()} allToDos={this.state.toDos} onDelete={this.onDelete} toggleCompleted={this.toggleCompleted}/>}
+        {this.state.showModal&&<Modal onClose={this.togggleModal}>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             Dolor animi dolore quam impedit facilis, nemo natus accusamus officiis?</p>
         </Modal>}
-        <button type='button' onClick={this.togggleModal}>Open</button>
+        <Button onClick={this.togggleModal}><FaPlus size='25px'/></Button>
       </>
     );
   }
